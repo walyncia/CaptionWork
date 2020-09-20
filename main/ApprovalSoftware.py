@@ -31,30 +31,37 @@ class CaptionListA:
 
             
     def write_to_file(self):
-        outfileA = open('ApprovedCaptions.txt','w')
+        #open the approved, rejected and collective captions files
+        outfileA = open('ApprovedCaptions.txt','a')
         outfileB = open('RejectedCaptions.txt','a')
+        outfileC = open('CollectiveCaptions.txt','a')
         if self.head is None:
             return 'Nothing to write'
         else:
             current = self.head
+            #running total of
             count =1
             while current is not None:
                 factor = int(input('\n' + current.caption + '\n\t Approve (1) Reject (0):'))
                 if factor == 1:
                     outfileA.write(current.caption + ',' + current.user + '\n')
+                    outfileC.write(current.caption + ',' + current.user + ',APPROVED\n')
                     count +=1
                 else:
                     outfileB.write(current.caption + ',' + current.user + '\n')
+                    outfileC.write(current.caption + ',' + current.user + ',REJECTED\n')
                     count +=1
                 current= current.link
             return '\nApproval Completed for ' + str(count) +' Caption(s)!'
-        outfile.close()
+        outfileA.close()
+        outfileB.close()
+        outfileC.close()
 
         
     def read_infile(self):
         OriginalList = CaptionListA()
         #open the unapproved captions file in read mode
-        infile = open('UserUnapprovedCaptions.txt','r')
+        infile = open('User-UnapprovedCaptions.txt','r')
         
         #insert the first caption and corresponding user as the head of linked list
         captionsOne = infile.readline()
